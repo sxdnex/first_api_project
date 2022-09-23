@@ -6,50 +6,65 @@ function App() {
   const [values, setValues] = useState({
     firstName: "",   
 });
+  const [person, setPerson] = useState();
   const [error, setError] = useState();
+
 
 const firstNameInputChange = (event) => {
     setValues({...values, firstName: event.target.value})};
 
 //triggers Loading of Employees Data
-const handleLoading = async () => {
-    alert("aggro");
-    // await fetch("localhost:3400/testingApi")
-    //     .then((response) => response.json())
-    //     .then((response) => {
-    //         alert(response);
-    //         setError(null);
-    //     })
-    //     .catch(setError);
+const handleLoading = async (e) => {
+  e.preventDefault();
+
+  const Data = await fetch("http://localhost:3400/testingApi").then(response => response.json()).then(response => {return response.data});
+
+  setPerson(Data);
+
+  setValues(Data[1].name)
+}
+
+const Wrapper = (item) => {
+  return (
+      <div>
+        <p>{item.name}</p>
+        <p>{item.lastName}</p>
+        <p>{item.sex}</p>
+        <p>{item.age}</p>
+        <p>{item.department}</p>
+      </div>
+
+  )
 }
 
 
 return (
-  <div class="form-container">
-    <form class="register-form">    
+  <div className="form-container">
+    <form className="register-form">
       <input
       onChange={firstNameInputChange} 
-        value={values.firstName}
+        value={values}
         className="form-field"
         type="text"
         placeholder="Input Bitte"
         name="firstName"
       />      
       <div className='buttons'>
-      <button class="form-field" type="submit">
+      <button className="form-field" type="submit">
         Löschen
       </button>
-      <button class="form-field" type="submit" onClick={handleLoading}>
+      <button className="form-field" type="submit" onClick={(e) => handleLoading(e)}>
         Pull
       </button>
-      <button class="form-field" type="submit">
+      <button className="form-field" type="submit">
         Update
       </button>     
       </div>
-      <output> 
-        {""}
-      </output>
+      {/*<output> */}
+      {/*  {""}*/}
+      {/*</output>*/}
     </form>
+    {person ? person.map((p) => Wrapper(p)) : <></>}
   </div>
 );
 }
