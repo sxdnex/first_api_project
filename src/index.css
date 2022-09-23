@@ -1,3 +1,7 @@
+*{
+ align-content: center;
+}
+
 body {
   background: #082d4be0;
   display: flex;
@@ -40,9 +44,6 @@ input {
   background: #d1d1d1;
 }
 
-output{
-  background: #d1d1d1;
-}
 
 button {
   background: #0369c9;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import axios from "axios";
+import ListItem from './components/listItem';
 
 function App() {
   const [values, setValues] = useState({
@@ -24,31 +25,9 @@ const handleLoading = async (e) => {
   setValues(Data[1].name)
 }
 
-const Wrapper = (item) => {
-  return (
-      <div>
-        <p>{item.name}</p>
-        <p>{item.lastName}</p>
-        <p>{item.sex}</p>
-        <p>{item.age}</p>
-        <p>{item.department}</p>
-      </div>
-
-  )
-}
-
-
 return (
   <div className="form-container">
-    <form className="register-form">
-      <input
-      onChange={firstNameInputChange} 
-        value={values}
-        className="form-field"
-        type="text"
-        placeholder="Input Bitte"
-        name="firstName"
-      />      
+    <form className="register-form">     
       <div className='buttons'>
       <button className="form-field" type="submit">
         Löschen
@@ -59,12 +38,11 @@ return (
       <button className="form-field" type="submit">
         Update
       </button>     
-      </div>
-      {/*<output> */}
-      {/*  {""}*/}
-      {/*</output>*/}
+      </div>      
     </form>
-    {person ? person.map((p) => Wrapper(p)) : <></>}
+    <div className='ausgabe'>
+      {person ? person.map((p) =>  <ListItem key={p.id} item={p} />) : <></>}
+    </div>
   </div>
 );
 }
